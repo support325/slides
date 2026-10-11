@@ -1,7 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function waitForDeck(page: Page) {
-  await page.goto('/');
+  // '/' now lands on the welcome screen (added in the welcome-page commit,
+  // the last change before this project paused) — the editor itself only
+  // boots at '/#editor'. This helper predates that change and was never
+  // updated, which is why these two tests started timing out.
+  await page.goto('/#editor');
   await page.waitForFunction(
     () => typeof (window as { __casualSlides_getPptxClient?: unknown }).__casualSlides_getPptxClient === 'function',
     null,
